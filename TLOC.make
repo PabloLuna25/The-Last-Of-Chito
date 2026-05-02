@@ -118,8 +118,12 @@ endif
 GENERATED :=
 OBJECTS :=
 
+GENERATED += $(OBJDIR)/hitbox.o
 GENERATED += $(OBJDIR)/main.o
+GENERATED += $(OBJDIR)/player.o
+OBJECTS += $(OBJDIR)/hitbox.o
 OBJECTS += $(OBJDIR)/main.o
+OBJECTS += $(OBJDIR)/player.o
 
 # Rules
 # #############################################
@@ -183,9 +187,15 @@ endif
 # File Rules
 # #############################################
 
-$(OBJDIR)/main.o: src/main.c
+$(OBJDIR)/hitbox.o: src/entities/hitbox/hitbox.cpp
 	@echo "$(notdir $<)"
-	$(SILENT) $(CC) $(ALL_CFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/player.o: src/entities/player/player.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/main.o: src/main.cpp
+	@echo "$(notdir $<)"
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 
 -include $(OBJECTS:%.o=%.d)
 ifneq (,$(PCH))
